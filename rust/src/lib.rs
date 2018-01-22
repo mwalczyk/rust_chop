@@ -10,8 +10,13 @@ pub extern fn execute_rs(chan_data: *mut c_float,
 					     chan_samples: size_t, 			
 					     execute_count: uint32_t) {		
 
-	// Create a slice from the raw channel data
+	// Create a slice from the raw channel data - note that this does 
+	// not perform a copy! The resulting slice will share the same 
+	// underlying memory as the raw, C-style array coming from
+	// TouchDesigner.
 	let mut data = unsafe {
+		// We need to make sure that the pointer is not NULL before 
+		// constructing the slice.
 		assert!(!chan_data.is_null());
 		slice::from_raw_parts_mut(chan_data, chan_samples as usize)
 	};
@@ -20,12 +25,12 @@ pub extern fn execute_rs(chan_data: *mut c_float,
 }
 
 
-// This is a client-facing, safe version of the function above.
+// This is the client-facing, safe version of the function above.
 // Authors should write their code inside of this function rather
 // than the unsafe block above.
 //
 // Parameters:
-// chan_data: the float* of channel data from C++
+// chan_data: a slice containing the mutable channel data
 // chan_index: the numeric index of the channel
 // chan_samples: the number of samples in this channel
 // execute_count: the number of times this CHOP has executed
