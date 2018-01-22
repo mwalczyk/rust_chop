@@ -3,11 +3,17 @@ extern crate libc;
 use libc::{uint32_t, size_t, c_float};
 use std::slice;
 
+// Parameters:
+// chan_data: the float* of channel data from C++
+// chan_index: the numeric index of the channel
+// chan_samples: the number of samples in this channel
+// execute_count: the number of times this CHOP has executed
+
 #[no_mangle]
-pub extern fn execute_rs(chan_data: *mut c_float,		// The float* of channel data from C++
-					     chan_index: size_t, 			// The numeric index of the channel
-					     chan_samples: size_t, 			// The number of samples in this channel
-					     execute_count: uint32_t) {		// The number of times this CHOP has executed
+pub extern fn execute_rs(chan_data: *mut c_float,		
+					     chan_index: size_t, 			
+					     chan_samples: size_t, 			
+					     execute_count: uint32_t) {		
 
 	// Create a slice from the raw channel data
 	let mut data = unsafe {
@@ -32,13 +38,3 @@ pub extern fn execute_rs(chan_data: *mut c_float,		// The float* of channel data
 
 
 
-
-
-
-
-
-
-// Reference: http://jakegoulding.com/rust-ffi-omnibus/slice_arguments/
-// Make sure to compile the C++ code in release mode, since Rust always links to 
-// the release CRT. Certain C++ libraries will pull in debug symbols, that cause issues:
-// https://en.wikipedia.org/wiki/Debug_symbol

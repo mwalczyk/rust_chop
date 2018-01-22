@@ -1,6 +1,8 @@
 # Rust CHOP
 An experimental CPlusPlus CHOP that generates its channel data by calling into a Rust static library. Tested with TouchDesigner 088.
 
+![Alt text](/screenshot.png?raw=true "Creating a sin wave from Rust")
+
 ## Before Building
 Make sure you have the latest version of Rust installed and `cargo` is in your `PATH`. Also, you will need Visual Studio 2015 to compile the C++ project.
 
