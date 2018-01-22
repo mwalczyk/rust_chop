@@ -1,0 +1,11 @@
+[package]
+name = "chop"
+version = "0.1.0"
+authors = ["Michael Walczyk <michael.walczyk@obscuradigital.com>"]
+
+[dependencies]
+libc = "*"
+
+[lib]
+name = "chop"
+crate-type = ["staticlib"] 
