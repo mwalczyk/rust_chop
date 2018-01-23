@@ -11,10 +11,43 @@
 #include "CHOP_CPlusPlusBase.h"
 
 #include <Windows.h>
+#include <PathCch.h>
 #include <iostream>
+#include <string>
 #include <tchar.h>
 
 typedef void (*ExecuteRsFuncPtr)(float* chanData, size_t chanIndex, size_t chanSamples, uint32_t executeCount);
+
+std::string modulePath = "";
+
+// This function is called when TouchDesigner loads this .dll.
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+{
+	switch (fdwReason)
+	{
+	case DLL_PROCESS_ATTACH:
+		// Get the absolute path to the C++ .dll that will be.
+		char path[MAX_PATH] = "";
+		GetModuleFileName(hinstDLL, path, MAX_PATH);
+
+		// Store the module path globally so that the RustCHOP constructor can access it.
+		modulePath = path;
+
+		// Remove everything after the last backslash (since we only want the directoy in
+		// which the .dll is stored).
+		std::size_t found = modulePath.rfind("\\");
+		if (found != std::string::npos)
+		{
+			size_t numberToDelete = modulePath.length() - found;
+			modulePath.replace(found, numberToDelete, "");
+		}
+
+		std::cout << "Path to RustCHOP.dll: " << modulePath << std::endl;
+
+		break;
+	}
+	return true;
+}
 
 class RustCHOP : public CHOP_CPlusPlusBase
 {
@@ -40,3 +73,4 @@ private:
 	HINSTANCE rustDll;
 	ExecuteRsFuncPtr executeRsEntryPoint;
 };
+
