@@ -59,7 +59,7 @@ void RustCHOP::getGeneralInfo(CHOP_GeneralInfo* ginfo)
 
 bool RustCHOP::getOutputInfo(CHOP_OutputInfo* info)
 {
-	info->numChannels = 1;
+	info->numChannels = 3;
 	info->numSamples = 100;
 	info->startIndex = 0;
 	return true;

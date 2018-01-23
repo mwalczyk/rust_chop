@@ -43,7 +43,7 @@ pub fn execute(chan_data: &mut [f32],
 			   execute_count: u32) {
 
 	// As a simple example, output a sin wave.
-	let phase = 2.0 * std::f64::consts::PI;
+	let phase = (2.0 * std::f64::consts::PI) / (chan_index as f64 + 1.0);
 	let sample_rate = 60.0;
 
 	for (index, elem) in chan_data.iter_mut().enumerate() {
