@@ -74,17 +74,10 @@ void RustCHOP::execute(const CHOP_Output* output, OP_Inputs* inputs, void* reser
 {
 	executeCount++;
 
-	if (inputs->getNumInputs() > 0)
+	// For now, pass each channel (in sequence) to the Rust .lib
+	for (int i = 0; i < output->numChannels; ++i)
 	{
-		// TODO: for now, we ignore any CHOP inputs 
-	}
-	else 
-	{
-		// For now, pass each channel (in sequence) to the Rust .lib
-		for (int i = 0; i < output->numChannels; ++i)
-		{
-			execute_rs(output->channels[i], i, output->numSamples, executeCount);
-		}
+		execute_rs(output->channels[i], i, output->numSamples, executeCount);
 	}
 }
 
