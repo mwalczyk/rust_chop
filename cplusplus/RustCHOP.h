@@ -10,6 +10,12 @@
 
 #include "CHOP_CPlusPlusBase.h"
 
+#include <Windows.h>
+#include <iostream>
+#include <tchar.h>
+
+typedef void (*ExecuteRsFuncPtr)(float* chanData, size_t chanIndex, size_t chanSamples, uint32_t executeCount);
+
 class RustCHOP : public CHOP_CPlusPlusBase
 {
 public:
@@ -30,4 +36,7 @@ public:
 private:
 
 	int32_t	executeCount;
+
+	HINSTANCE rustDll;
+	ExecuteRsFuncPtr executeRsEntryPoint;
 };
