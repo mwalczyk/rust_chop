@@ -8,4 +8,4 @@ libc = "*"
 
 [lib]
 name = "chop"
-crate-type = ["staticlib"] 
+crate-type = ["staticlib"]
